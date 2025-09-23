@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO-Galán | Galería de Proyectos</title>
+    <!-- Importación de fuentes de Google Fonts para un estilo futurista -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLES DE DISEÑO CYBERPUNK --- */
+        :root {
+            --bg-dark: #02041b;
+            --primary-glow: #00f7ff;
+            --secondary-glow: #f500ff;
+            --text-color: #d0d8f0;
+            --card-bg: rgba(10, 25, 50, 0.6);
+            --border-color: rgba(0, 247, 255, 0.2);
+            --header-bg: rgba(2, 4, 27, 0.8);
+        }
+
+        /* --- ESTILOS GENERALES Y RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            background: linear-gradient(-45deg, #02041b, #0b002b, #1a0033, #02041b);
+            background-size: 400% 400%;
+            animation: gradientBG 25s ease infinite;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .scanlines-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: repeating-linear-gradient(transparent, transparent 2px, rgba(0, 0, 0, 0.2) 3px, rgba(0, 0, 0, 0.2) 4px);
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* --- HEADER Y NAVEGACIÓN --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            color: var(--primary-glow);
+            text-shadow: 0 0 5px var(--primary-glow), 0 0 10px var(--primary-glow);
+        }
+
+        /* --- SECCIÓN PRINCIPAL --- */
+        .hero-section {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero-section .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: var(--primary-glow);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow), 0 0 40px var(--secondary-glow);
+        }
+
+        .hero-section p {
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* --- CARRUSEL 3D --- */
+        .carousel-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 4rem auto;
+            position: relative;
+        }
+
+        .scene {
+            width: 300px; 
+            height: 420px;
+            position: relative;
+            margin: auto;
+            perspective: 3000px; /* Aumentada para un círculo grande */
+        }
+
+        .carousel {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .carousel-card {
+            position: absolute;
+            width: 300px;
+            height: 400px;
+            background-color: var(--card-bg);
+            backdrop-filter: blur(5px);
+            clip-path: polygon(0 15px, 15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .carousel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 15px var(--primary-glow);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .carousel-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        .carousel-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            filter: grayscale(30%) contrast(110%);
+            opacity: 0.9;
+        }
+
+        .card-content {
+            padding: 1.2rem;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .card-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-glow);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .card-content p {
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* --- NAVEGACIÓN DEL CARRUSEL --- */
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .nav-button {
+            background: transparent;
+            color: var(--primary-glow);
+            border: 2px solid var(--primary-glow);
+            padding: 0.7rem 1.8rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.4s ease, transform 0.2s ease;
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+        
+        .nav-button:hover {
+            color: var(--bg-dark);
+            transform: scale(1.05);
+            text-shadow: none;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--primary-glow);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.7, 0, 0.2, 1);
+        }
+
+        .nav-button:hover::before {
+            transform: scaleX(1);
+        }
+        
+        /* --- ESTILOS DEL MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 4, 27, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            width: 90%;
+            max-width: 900px; /* Aumentado para que la imagen sea más grande y legible */
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+            clip-path: polygon(0 20px, 20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--primary-glow);
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-project-image {
+            width: 100%;
+            height: auto;
+            /* Se elimina la altura máxima para que la imagen se expanda a lo ancho */
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-glow);
+            margin-bottom: 1rem;
+        }
+        .modal-description {
+            margin-bottom: 1.5rem;
+        }
+        .ai-section h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary-glow);
+            margin-bottom: 0.5rem;
+        }
+        .ai-content {
+            white-space: pre-wrap;
+            font-weight: 300;
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            min-height: 50px;
+            border-left: 3px solid var(--secondary-glow);
+        }
+        .gemini-button {
+            background: transparent;
+            color: var(--secondary-glow);
+            border: 2px solid var(--secondary-glow);
+            padding: 0.6rem 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            display: inline-block;
+        }
+        .gemini-button:hover {
+            background: var(--secondary-glow);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px var(--secondary-glow);
+        }
+        .gemini-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary-glow);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto 0;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- FOOTER --- */
+        .main-footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            font-weight: 300;
+        }
+        
+        @media (max-width: 768px) {
+            .logo { font-size: 1.3rem; }
+            .hero-section .title { font-size: 2rem; }
+            .scene {
+                width: 250px;
+                height: 350px;
+                perspective: 1500px;
+            }
+            .carousel-card {
+                width: 250px;
+                height: 330px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines-overlay"></div>
+    
+    <header class="main-header">
+        <div class="logo">ECO-Galán</div>
+    </header>
+
+    <main class="hero-section">
+        <h1 class="title">PROYECTOS Y NOTICIAS</h1>
+        <p>Explora las últimas innovaciones, eventos y logros de nuestra comunidad educativa. Haz clic en cualquier noticia para ver los detalles.</p>
+
+        <section class="carousel-container">
+            <div class="scene">
+                <div class="carousel">
+                    <!-- ========= NOTICIAS ORDENADAS ========= -->
+
+                    <!-- 1. Rector -->
+                    <div class="carousel-card" data-title="Rector de la Institución" data-description="Conozca a nuestro rector, líder visionario comprometido con la excelencia académica y el desarrollo integral de nuestros estudiantes. Su gestión impulsa la innovación y los valores en ECO-Galán.">
+                        <img src="https://i.ibb.co/fWDFMyC/NOTICIAS-N-page-0001.jpg" alt="Rector" class="card-image">
+                        <div class="card-content">
+                            <h3>Rector de la Institución</h3>
+                            <p>Liderazgo y visión para un futuro brillante.</p>
+                        </div>
+                    </div>
+
+                    <!-- 2. Coordinadora Mercy Neira -->
+                    <div class="carousel-card" data-title="Coordinadora Mercy Neira" data-description="La coordinadora Mercy Neira es una pieza clave en la articulación de nuestros proyectos académicos, asegurando la calidad educativa y el bienestar estudiantil con su dedicación y experiencia.">
+                        <img src="https://i.ibb.co/W4zy41pF/NOTICIAS-N-page-0002.jpg" alt="Coordinadora Mercy Neira" class="card-image">
+                        <div class="card-content">
+                            <h3>Coordinadora Mercy Neira</h3>
+                            <p>Compromiso y excelencia en la gestión académica.</p>
+                        </div>
+                    </div>
+
+                    <!-- 3. PAE -->
+                    <div class="carousel-card" data-title="Programa de Alimentación Escolar (PAE)" data-description="El PAE en ECO-Galán garantiza una nutrición adecuada para nuestros estudiantes, contribuyendo a su desarrollo físico y cognitivo, un pilar fundamental para un aprendizaje efectivo.">
+                        <img src="https://i.ibb.co/nNbHNVJ/14-de-septiembre-del-2025-1-1-page-0001.jpg" alt="PAE" class="card-image">
+                        <div class="card-content">
+                            <h3>Programa de Alimentación Escolar</h3>
+                            <p>Nutrición y bienestar para un mejor rendimiento.</p>
+                        </div>
+                    </div>
+
+                    <!-- 4. Olimpiadas Matemáticas -->
+                    <div class="carousel-card" data-title="Olimpiadas Matemáticas" data-description="Nuestros estudiantes demuestran su talento y pensamiento lógico en las Olimpiadas Matemáticas, alcanzando destacados resultados y poniendo en alto el nombre de ECO-Galán.">
+                        <img src="https://i.ibb.co/SHZhQZB/NOTICIAS-N-page-0013.jpg" alt="Olimpiadas Matemáticas" class="card-image">
+                        <div class="card-content">
+                            <h3>Olimpiadas Matemáticas</h3>
+                            <p>Mentes brillantes desafiando los números.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 5. Galancitos Creativos -->
+                    <div class="carousel-card" data-title="Galancitos Creativos" data-description="El semillero 'Galancitos Creativos' es un espacio donde los más pequeños exploran su imaginación a través del arte, la música y el juego, fomentando la creatividad desde temprana edad.">
+                        <img src="https://i.ibb.co/6RY6FkNx/NOTICIAS-N-page-0004.jpg" alt="Galancitos Creativos" class="card-image">
+                        <div class="card-content">
+                            <h3>Galancitos Creativos</h3>
+                            <p>Despertando la imaginación de nuestros futuros líderes.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 6. Robotistas Llaneros -->
+                    <div class="carousel-card" data-title="Robotistas Llaneros" data-description="El equipo 'Robotistas Llaneros' de ECO-Galán se destaca en competencias de robótica, aplicando conocimientos en STEM para diseñar y construir robots innovadores y funcionales.">
+                        <img src="https://i.ibb.co/HTJD7bLp/NOTICIAS-N-page-0009.jpg" alt="Robotistas Llaneros" class="card-image">
+                        <div class="card-content">
+                            <h3>Robotistas Llaneros</h3>
+                            <p>Innovación y tecnología en movimiento.</p>
+                        </div>
+                    </div>
+
+                    <!-- 7. Octava válida de carros Colgalán -->
+                    <div class="carousel-card" data-title="8va Válida de Carros de Rodillos" data-description="La tradicional Válida de Carros de Rodillos Colgalán combina adrenalina, creatividad y trabajo en equipo. Un evento que une a toda la comunidad educativa en una emocionante competencia.">
+                        <img src="https://i.ibb.co/YFRhT21k/NOTICIAS-N-page-0011.jpg" alt="Octava válida de carros Colgalán" class="card-image">
+                        <div class="card-content">
+                            <h3>8va Válida de Carros Colgalán</h3>
+                            <p>Ingenio y velocidad sobre ruedas.</p>
+                        </div>
+                    </div>
+
+                    <!-- 8. Aboutiqe -->
+                    <div class="carousel-card" data-title="Proyecto Aboutiqe" data-description="Aboutiqe es una iniciativa de emprendimiento estudiantil que promueve la moda sostenible y el diseño creativo, enseñando a los jóvenes habilidades empresariales y de gestión de proyectos.">
+                        <img src="https://i.ibb.co/fVTVsvX3/NOTICIAS-N-page-0005.jpg" alt="Aboutiqe" class="card-image">
+                        <div class="card-content">
+                            <h3>Proyecto Aboutiqe</h3>
+                            <p>Emprendimiento y moda con conciencia social.</p>
+                        </div>
+                    </div>
+
+                    <!-- 9. Comité de calidad -->
+                    <div class="carousel-card" data-title="Comité de Calidad" data-description="Nuestro Comité de Calidad trabaja continuamente en la mejora de los procesos educativos y administrativos, asegurando que ECO-Galán cumpla con los más altos estándares de excelencia.">
+                        <img src="https://i.ibb.co/svm1W9H8/NOTICIAS-N-page-0003.jpg" alt="Comité de calidad" class="card-image">
+                        <div class="card-content">
+                            <h3>Comité de Calidad</h3>
+                            <p>Comprometidos con la mejora continua.</p>
+                        </div>
+                    </div>
+
+                    <!-- RESTO DE NOTICIAS -->
+                    <div class="carousel-card" data-title="Proyecto Ajedrez" data-description=" Liderado por el Docente Merchan.">
+                        <img src="https://i.ibb.co/qM1K49CR/NOTICIAS-N-page-0006.jpg" alt="Cultura y Deporte" class="card-image">
+                        <div class="card-content">
+                            <h3>Proyecto Ajedrez</h3>
+                            <p>Estrategia y concentración en cada jugada.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Viaje espiritual y cultural" data-description="Semana Cultural a cargo de grado Sexto.">
+                        <img src="https://i.ibb.co/4nMKRFV9/NOTICIAS-N-page-0007.jpg" alt="Proyectos Transversales" class="card-image">
+                        <div class="card-content">
+                            <h3>Viaje espiritual y cultural</h3>
+                            <p>Explorando nuestras raíces y valores.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Recojeton" data-description="Se recogen botellas para una buena causa.">
+                        <img src="https://i.ibb.co/fVTTN4cL/NOTICIAS-N-page-0008.jpg" alt="Día de la Familia" class="card-image">
+                        <div class="card-content">
+                            <h3>Recogetón</h3>
+                            <p>Unidos por un planeta más limpio.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Leer está de moda" data-description="Implementamos nuevas tecnologías y metodologías para hacer del aprendizaje una experiencia dinámica y efectiva.">
+                        <img src="https://i.ibb.co/zWjr9yhx/NOTICIAS-N-page-0010.jpg" alt="Innovación" class="card-image">
+                        <div class="card-content"><h3>Leer está de moda</h3>
+                            <p>Fomentando el amor por la lectura.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Opio en las nubes" data-description="Acercando a los jóvenes al mundo de los libros.">
+                        <img src="https://i.ibb.co/XryhZs2M/NOTICIAS-N-page-0012.jpg" alt="Medio Ambiente" class="card-image">
+                        <div class="card-content"><h3>Opio en las nubes</h3>
+                            <p>Explorando mundos imaginarios.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="CresCendo" data-description="Armonizando aprendizajes.">
+                        <img src="https://i.ibb.co/m50nbQ2m/NOTICIAS-2-page-0001.jpg" alt="CresCendo" class="card-image">
+                        <div class="card-content"><h3>CresCendo</h3>
+                            <p>La música como lenguaje universal.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Escenario cultural" data-description="Machine erri.">
+                        <img src="https://i.ibb.co/FbsMFGmn/NOTICIAS-2-page-0002.jpg" alt="Talento Musical" class="card-image">
+                        <div class="card-content"><h3>Escenario cultural </h3><p>Machine Erri.</p></div>
+                    </div>
+                    <div class="carousel-card" data-title="Sembradores de amor" data-description="Fomenta la Alimentación Saludable y el cuidado del Medio Ambiente.">
+                        <img src="https://i.ibb.co/prM6LGn7/NOTICIAS-2-page-0003.jpg" alt="Voluntariado" class="card-image">
+                        <div class="card-content"><h3>Sembradores de amor</h3>
+                            <p>Cultivando un futuro sostenible.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="La casa de tus sueños" data-description="Diseñar tu casa soñada, a cargo del profesor Brayan Arango..">
+                        <img src="https://i.ibb.co/LXk3nP8n/NOTICIAS-2-page-0004.jpg" alt="Intercambio" class="card-image">
+                        <div class="card-content"><h3>La casa de tus sueños</h3>
+                            <p>Imaginando espacios únicos.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Granitos de amor" data-description="Recolectar comida para una fundación.">
+                        <img src="https://i.ibb.co/YBf9Kdng/NOTICIAS-2-page-0005.jpg" alt="Debate" class="card-image">
+                        <div class="card-content">
+                            <h3>Granitos de amor</h3>
+                            <p>Pequeñas acciones, grandes cambios.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Club de Astrogalanistas" data-description="Cuando la curiosidad escolar alcanza las estrellas.">
+                        <img src="https://raw.githubusercontent.com/anfeboyyaxcarlin/imagenes1/refs/heads/main/NOTICIAS%202_page-0006.jpg" alt="Emprendimiento" class="card-image">
+                        <div class="card-content"><h3>Club de Astrogalanistas</h3>
+                            <p>Explorando el universo desde nuestro colegio.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Recogeton para el WAYACTA SAICA" data-description="Recolección del material plástico.">
+                        <img src="https://raw.githubusercontent.com/anfeboyyaxcarlin/imagenes1/refs/heads/main/NOTICIAS%202_page-0007.jpg" alt="Seguridad" class="card-image">
+                        <div class="card-content"><h3>Recogeton para el WAYACTA SAICA</h3>
+                            <p>Unidos por un planeta más limpio.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Mujeres en la ciencia" data-description="Rendir homenaje y reconocimiento a mujeres que hicieron historia.">
+                        <img src="https://raw.githubusercontent.com/anfeboyyaxcarlin/imagenes1/refs/heads/main/NOTICIAS%202_page-0008.jpg" alt="Diversidad" class="card-image">
+                        <div class="card-content"><h3>Mujeres en la ciencia</h3>
+                            <p>Inspirando a futuras generaciones.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Tejiendo sueños" data-description="Donde a través del tejido, se expresa nuestra imagi.">
+                        <img src="https://raw.githubusercontent.com/anfeboyyaxcarlin/imagenes1/refs/heads/main/NOTICIAS%202_page-0009.jpg" alt="Deportes" class="card-image">
+                        <div class="card-content"><h3>Tejiendo sueños</h3>
+                            <p>Creatividad y tradición entrelazadas.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card" data-title="Lectura y Escritura" data-description="Nuestro club de lectura fomenta el amor por los libros y la creación literaria.">
+                        <img src="https://raw.githubusercontent.com/anfeboyyaxcarlin/imagenes1/refs/heads/main/NOTICIAS%202_page-0010.jpg" alt="Lectura" class="card-image">
+                        <div class="card-content"><h3>Lectura y Escritura</h3><p>Viajando a través de las palabras.</p></div>
+                    </div>
+                    <div class="carousel-card" data-title="Apoyo Psicológico" data-description="Contamos con un equipo de profesionales dedicados al bienestar emocional de nuestros estudiantes.">
+                        <img src="https://raw.githubusercontent.com/anfeboyyaxcarlin/imagenes1/refs/heads/main/NOTICIAS%202_page-0011.jpg" alt="Apoyo" class="card-image">
+                        <div class="card-content"><h3>Apoyo Psicológico</h3><p>Cuidando la salud mental.</p></div>
+                    </div>
+                    <div class="carousel-card" data-title="Día del Idioma" data-description="Celebramos la riqueza de nuestra lengua con actividades lúdicas y culturales.">
+                        <img src="https://raw.githubusercontent.com/anfeboyyaxcarlin/imagenes1/refs/heads/main/NOTICIAS%202_page-0012.jpg" alt="Idioma" class="card-image">
+                        <div class="card-content"><h3>Día del Idioma</h3><p>Homenaje a nuestras raíces.</p></div>
+                    </div>
+                    <div class="carousel-card" data-title="Gobierno Escolar" data-description="Formamos líderes democráticos y participativos a través de nuestro gobierno escolar.">
+                        <img src="https://raw.githubusercontent.com/anfeboyyaxcarlin/imagenes1/refs/heads/main/NOTICIAS%202_page-0013.jpg" alt="Gobierno Escolar" class="card-image">
+                        <div class="card-content"><h3>Gobierno Escolar</h3><p>Construyendo ciudadanía.</p></div>
+                    </div>
+                    <div class="carousel-card" data-title="Alianzas Estratégicas" data-description="Colaboramos con universidades y empresas para enriquecer la formación de nuestros estudiantes.">
+                        <img src="https://i.ibb.co/Lz584mN5/f9b62d6b-fadd-444c-b8ad-363e5af7260a.jpg" alt="Alianzas" class="card-image">
+                        <div class="card-content"><h3>Alianzas Estratégicas</h3><p>Abriendo puertas al futuro.</p></div>
+                    </div>
+                    <div class="carousel-card" data-title="Excursiones Pedagógicas" data-description="El aprendizaje sale del aula con visitas a museos, parques naturales y lugares históricos.">
+                        <img src="https://i.ibb.co/zVJvZ5p2/e179d752-e0aa-43c2-910b-5c92a4e2596c.jpg" alt="Excursiones" class="card-image">
+                        <div class="card-content"><h3>Excursiones Pedagógicas</h3><p>Aprender es una aventura.</p></div>
+                    </div>
+                    <div class="carousel-card" data-title="Formación Docente" data-description="Nuestros profesores se capacitan constantemente para estar a la vanguardia de la educación.">
+                        <img src="https://i.ibb.co/nNbHNVJn/14-de-septiembre-del-2025-1-1-page-0001.jpg" alt="Docentes" class="card-image">
+                        <div class="card-content"><h3>Formación Docente</h3><p>Maestros que inspiran.</p></div>
+                    </div>
+                    <div class="carousel-card" data-title="Noche de Gala" data-description="Celebramos los logros de nuestros graduandos en una emotiva ceremonia de gala.">
+                        <img src="https://i.ibb.co/SDQt4b5p/8041aa39-914d-489f-9a60-36b38ac87330.jpg" alt="Gala" class="card-image">
+                        <div class="card-content"><h3>Noche de Gala</h3><p>Un ciclo que se cierra, un futuro que comienza.</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-nav">
+                <button id="prev-btn" class="nav-button">&lt; ANTERIOR</button>
+                <button id="next-btn" class="nav-button">SIGUIENTE &gt;</button>
+            </div>
+        </section>
+    </main>
+    
+    <div id="project-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="close-modal">&times;</button>
+            <img id="modal-image" src="" alt="Imagen del Proyecto" class="modal-project-image">
+            <h2 id="modal-title" class="modal-title"></h2>
+            <p id="modal-description" class="modal-description"></p>
+            <div class="ai-section">
+                <h4>// ANÁLISIS TÉCNICO POR IA...</h4>
+                <div id="ai-content" class="ai-content">Haz clic en el botón para generar los detalles...</div>
+                <div id="ai-loader" class="loader"></div>
+                <button id="gemini-btn" class="gemini-button">✨ Generar Detalles con IA</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <p>// FIN DE LA TRANSMISIÓN // ECO-Galán 2025 //</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- ELEMENTOS DEL CARRUSEL ---
+            const carousel = document.querySelector('.carousel');
+            const cards = document.querySelectorAll('.carousel-card');
+            const prevButton = document.getElementById('prev-btn');
+            const nextButton = document.getElementById('next-btn');
+            const scene = document.querySelector('.scene');
+            
+            // --- ELEMENTOS DEL MODAL ---
+            const modal = document.getElementById('project-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+            const modalImage = document.getElementById('modal-image');
+            const geminiBtn = document.getElementById('gemini-btn');
+            const aiContent = document.getElementById('ai-content');
+            const aiLoader = document.getElementById('ai-loader');
+
+            // --- ESTADO DEL CARRUSEL ---
+            const cardCount = cards.length;
+            const rotationAngle = 360 / cardCount;
+            const cardWidth = 300; // Ancho base de la tarjeta
+            const radius = Math.round((cardWidth / 2) / Math.tan(Math.PI / cardCount));
+            let currentIndex = 0;
+            let autoRotateInterval;
+
+            // --- CONFIGURACIÓN DEL CARRUSEL ---
+            function setupCarousel() {
+                cards.forEach((card, index) => {
+                    const angle = rotationAngle * index;
+                    card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+                    card.addEventListener('click', () => openModal(card));
+                });
+            }
+
+            function rotateCarousel() {
+                const angle = -currentIndex * rotationAngle;
+                carousel.style.transform = `rotateY(${angle}deg)`;
+            }
+
+
+
+            function startAutoRotate() {
+                stopAutoRotate();
+                autoRotateInterval = setInterval(() => {
+                    currentIndex++;
+                    rotateCarousel();
+                }, 4000);
+            }
+
+            function stopAutoRotate() {
+                clearInterval(autoRotateInterval);
+            }
+
+            nextButton.addEventListener('click', () => {
+                currentIndex++;
+                rotateCarousel();
+                startAutoRotate();
+            });
+
+            prevButton.addEventListener('click', () => {
+                currentIndex--;
+                rotateCarousel();
+                startAutoRotate();
+            });
+
+            scene.addEventListener('mouseenter', stopAutoRotate);
+            scene.addEventListener('mouseleave', startAutoRotate);
+
+            // --- LÓGICA DEL MODAL ---
+            function openModal(card) {
+                stopAutoRotate(); // Detener el carrusel al abrir el modal
+                const title = card.dataset.title;
+                const description = card.dataset.description;
+                const imageUrl = card.querySelector('.card-image').src;
+                
+                modalTitle.textContent = title;
+                modalDescription.textContent = description;
+                modalImage.src = imageUrl;
+                
+                // Resetear estado de la sección de IA
+                aiContent.innerHTML = 'Haz clic en el botón para generar los detalles...';
+                geminiBtn.disabled = false;
+                geminiBtn.style.display = 'inline-block';
+
+                modal.classList.add('active');
+            }
+
+            function closeModal() {
+                modal.classList.remove('active');
+                startAutoRotate(); // Reanudar el carrusel al cerrar
+            }
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // --- LÓGICA DE LA API DE GEMINI ---
+            geminiBtn.addEventListener('click', handleGenerateDetails);
+
+            async function handleGenerateDetails() {
+                const title = modalTitle.textContent;
+                const description = modalDescription.textContent;
+                
+                aiLoader.style.display = 'block';
+                geminiBtn.disabled = true;
+                aiContent.textContent = 'Generando análisis...';
+
+                const apiKey = ""; // Dejar vacío, se proveerá en el entorno de ejecución
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                const systemPrompt = "Actúas como un comunicador institucional para un colegio innovador llamado ECO-Galán. Tu tarea es expandir la descripción de una noticia o proyecto. Debes responder en español.";
+                const userQuery = `Dada la noticia con el título "${title}" y la descripción "${description}", genera un texto más elaborado para una publicación en el sitio web del colegio. Describe el impacto del proyecto/evento en la comunidad educativa, menciona los valores que promueve (innovación, comunidad, ecología, etc.) y sugiere cómo los padres o estudiantes pueden involucrarse o aprender más. Escribe en un tono profesional, inspirador y cercano. No uses formato Markdown.`;
+
+                const payload = {
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    contents: [{ parts: [{ text: userQuery }] }],
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Error de la API: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    const generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    
+                    if (generatedText) {
+                        aiContent.textContent = generatedText;
+                        geminiBtn.style.display = 'none';
+                    } else {
+                        throw new Error("No se recibió contenido válido de la API.");
+                    }
+
+                } catch (error) {
+                    console.error('Error al llamar a la API de Gemini:', error);
+                    aiContent.textContent = `// ERROR DE CONEXIÓN CON LA IA //\nNo se pudo completar el análisis. Por favor, inténtalo de nuevo más tarde.`;
+                    geminiBtn.disabled = false;
+                } finally {
+                    aiLoader.style.display = 'none';
+                }
+            }
+
+            // --- INICIALIZACIÓN ---
+            setupCarousel();
+            startAutoRotate();
+        });
+    </script>
+</body>
+</html>
+
+
